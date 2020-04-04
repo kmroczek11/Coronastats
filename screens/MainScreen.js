@@ -3,7 +3,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Text,
-  ScrollView
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { getAllCountries } from "../redux/countries/duck/operations";
 import { connect } from "react-redux";
@@ -15,25 +16,29 @@ class MainScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontLoaded: false
+      fontLoaded: false,
     };
   }
 
   componentDidMount = async () => {
     await Font.loadAsync({
-      coronaFont: require("../assets/fonts/bloody.otf")
+      coronaFont: require("../assets/fonts/bloody.otf"),
     });
     this.setState({ fontloaded: true });
-    //   getAllCountries();
+    if (!this.props.countriesReceived) this.props.getAllCountries();
   };
 
   render() {
     return this.state.fontloaded ? (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.header}>Coronastats</Text>
-        <ScrollView>
-          <ListItems />
-        </ScrollView>
+        {this.props.countriesReceived ? (
+          <ScrollView>
+            <ListItems />
+          </ScrollView>
+        ) : (
+          <ActivityIndicator size="large" color="#fff" />
+        )}
       </KeyboardAvoidingView>
     ) : null;
   }
@@ -44,24 +49,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   header: {
     fontFamily: "coronaFont",
     fontSize: 50,
-    color: "#871A26",
-    margin: 20
-  }
+    color: "#fff",
+    margin: 20,
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { countries } = state;
   return { countries };
 };
 
-// const matchDispatchToProps = dispatch => ({
-//   getAllCountries: () => dispatch(getAllCountries())
-// });
+const matchDispatchToProps = (dispatch) => ({
+  getAllCountries: () => dispatch(getAllCountries()),
+});
 
-// export default connect(mapStateToProps, matchDispatchToProps)(MainScreen);
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps, matchDispatchToProps)(MainScreen);

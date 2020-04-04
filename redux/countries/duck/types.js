@@ -1,5 +1,7 @@
-const RANDOM = 'RANDOM'
+const ADD = 'ADD'
+const RECEIVED = 'RECEIVED'
 
 export default {
-    RANDOM
+    ADD,
+    RECEIVED
 }

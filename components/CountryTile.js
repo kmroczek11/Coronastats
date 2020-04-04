@@ -67,7 +67,7 @@ class CountryTile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.date}>{this.props.date}</Text>
+        <Text style={styles.name}>{this.props.name}</Text>
         <Image
           style={styles.flag}
           source={this.props.flag}
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderBottomWidth: 5
   },
-  date: {
+  name: {
     fontWeight: "bold"
   },
   type: {
