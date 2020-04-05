@@ -6,9 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { getAllCountries } from "../redux/countries/duck/operations";
 import { connect } from "react-redux";
-import { dispatch } from "rxjs/internal/observable/pairs";
 import ListItems from "../components/ListItems";
 import * as Font from "expo-font";
 import SearchBox from "../components/SearchBox";
@@ -26,7 +24,6 @@ class MainScreen extends Component {
       coronaFont: require("../assets/fonts/bloody.otf"),
     });
     this.setState({ fontloaded: true });
-    if (!this.props.countriesReceived) this.props.getAllCountries();
   };
 
   render() {
@@ -66,8 +63,4 @@ const mapStateToProps = (state) => {
   return { countries };
 };
 
-const matchDispatchToProps = (dispatch) => ({
-  getAllCountries: () => dispatch(getAllCountries()),
-});
-
-export default connect(mapStateToProps, matchDispatchToProps)(MainScreen);
+export default connect(mapStateToProps)(MainScreen);

@@ -12,6 +12,11 @@ const countriesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         countries: [...state.countries, action.country],
       };
+    case types.CLEAR:
+      return {
+        ...state,
+        countries: [],
+      };
     case types.RECEIVED:
       return {
         ...state,

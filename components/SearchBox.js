@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { connect } from "react-redux";
+import { dispatch } from "rxjs/internal/observable/pairs";
 import { Ionicons } from "@expo/vector-icons";
+import { searchCountry } from "../redux/countries/duck/operations";
 
 class SearchBox extends Component {
   constructor(props) {
@@ -9,7 +11,7 @@ class SearchBox extends Component {
   }
 
   onSearch = (t) => {
-    console.log(this.props.countries);
+    if (t != "") this.props.searchCountry(t);
   };
 
   render() {
@@ -41,9 +43,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const matchDispatchToProps = (dispatch) => ({
+  searchCountry: (t) => dispatch(searchCountry(t)),
+});
+
 const mapStateToProps = (state) => {
-  const { countries } = state;
-  return { countries };
+  return state;
 };
 
-export default connect(mapStateToProps)(SearchBox);
+export default connect(mapStateToProps, matchDispatchToProps)(SearchBox);

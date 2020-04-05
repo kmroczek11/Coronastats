@@ -1,5 +1,5 @@
 import actions from "./actions";
-import codes from "./codes"
+import codes from "./codes";
 
 const fetchCountries = async () => {
   const response = await fetch(
@@ -10,20 +10,25 @@ const fetchCountries = async () => {
   return json;
 };
 
-export const getAllCountries = () => async (dispatch) => {
+String.prototype.beginsWith = function (string) {
+  return this.indexOf(string) === 0;
+};
+
+export const searchCountry = (n) => async (dispatch) => {
+  dispatch(actions.clear());
   const countries = await fetchCountries();
   const entries = Object.entries(countries);
-  console.log("lol")
   for (const [name, days] of entries) {
-    console.log(name)
-    for (var symbol of codes.symbols) {
-      console.log(symbol)
-      if (symbol.name == name) {
-        days.push({
-          name: name,
-          symbol: symbol.symbol,
-        });
-        dispatch(actions.add(days));
+    if (name.toUpperCase().beginsWith(n.toUpperCase())) {
+      for (var symbol of codes.symbols) {
+        if (symbol.name == name) {
+          days.push({
+            name: name,
+            symbol: symbol.symbol,
+          });
+          dispatch(actions.add(days));
+          break;
+        }
       }
     }
   }
