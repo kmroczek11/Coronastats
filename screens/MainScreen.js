@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import ListItems from "../components/ListItems";
 import * as Font from "expo-font";
+import SearchBox from "../components/SearchBox";
 
 class MainScreen extends Component {
   constructor(props) {
@@ -32,13 +33,14 @@ class MainScreen extends Component {
     return this.state.fontloaded ? (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.header}>Coronastats</Text>
-        {this.props.countriesReceived ? (
-          <ScrollView>
-            <ListItems />
-          </ScrollView>
-        ) : (
-          <ActivityIndicator size="large" color="#fff" />
-        )}
+        <SearchBox />
+        {/* {this.props.countriesReceived ? ( */}
+        <ScrollView>
+          <ListItems />
+        </ScrollView>
+        {/* ) : ( */}
+        {/* <ActivityIndicator size="large" color="#fff" /> */}
+        {/* )} */}
       </KeyboardAvoidingView>
     ) : null;
   }

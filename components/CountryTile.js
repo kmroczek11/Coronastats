@@ -7,7 +7,10 @@ class CountryTile extends Component {
     this.state = {
       cProgress: "",
       dProgress: "",
-      rProgress: ""
+      rProgress: "",
+      cDifference: this.props.confirmed - this.props.cYesterday,
+      dDifference: this.props.deaths - this.props.dYesterday,
+      rDifference: this.props.recovered - this.props.rYesterday,
     };
   }
 
@@ -18,25 +21,24 @@ class CountryTile extends Component {
   checkProgresses = () => {
     var cProgress = (dProgress = rProgress = "");
 
-    if (this.props.confirmed > this.props.cYesterday) cProgress = "growth";
-    else if (this.props.confirmed < this.props.cYesterday)
-      cProgress = "decrease";
+    if (this.state.cDifference > 0) cProgress = "growth";
+    else if (this.state.cDifference < 0) cProgress = "decrease";
     else cProgress = "stable";
 
-    if (this.props.deaths > this.props.dYesterday) dProgress = "growth";
+    if (this.state.dDifference > 0) dProgress = "growth";
     else dProgress = "stable";
 
-    if (this.props.recovered > this.props.rYesterday) rProgress = "growth";
+    if (this.state.rDifference > 0) rProgress = "growth";
     else rProgress = "stable";
 
     this.setState({
       cProgress: cProgress,
       dProgress: dProgress,
-      rProgress: rProgress
+      rProgress: rProgress,
     });
   };
 
-  progress = p => {
+  progress = (p) => {
     switch (p) {
       case "growth":
         return (
@@ -64,20 +66,24 @@ class CountryTile extends Component {
     }
   };
 
+  difference = (d) => {
+    if (d > 0) return <Text style={styles.growth}>+{d}</Text>;
+    else if (d < 0) return <Text style={styles.decrease}>-{d}</Text>;
+    else return <Text style={styles.stable}>{d}</Text>;
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.name}>{this.props.name}</Text>
-        <Image
-          style={styles.flag}
-          source={this.props.flag}
-        />
+        <Image style={styles.flag} source={this.props.flag} />
         <View style={styles.box}>
           <Text style={styles.type}>Confirmed</Text>
           <View style={styles.inbox}>
             <Text>{this.props.confirmed}</Text>
             {this.progress(this.state.cProgress)}
           </View>
+          {this.difference(this.state.cDifference)}
         </View>
         <View style={styles.box}>
           <Text style={styles.type}>Deaths</Text>
@@ -85,6 +91,7 @@ class CountryTile extends Component {
             <Text>{this.props.deaths}</Text>
             {this.progress(this.state.dProgress)}
           </View>
+          {this.difference(this.state.dDifference)}
         </View>
         <View style={styles.box}>
           <Text style={styles.type}>Recovered</Text>
@@ -92,6 +99,7 @@ class CountryTile extends Component {
             <Text>{this.props.recovered}</Text>
             {this.progress(this.state.rProgress)}
           </View>
+          {this.difference(this.state.rDifference)}
         </View>
       </View>
     );
@@ -104,26 +112,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
-    backgroundColor: "#2AD143",
+    backgroundColor: "#BDD4E7",
     padding: 5,
     borderRadius: 10,
-    borderBottomWidth: 5
+    borderBottomWidth: 5,
   },
   name: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   type: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   flag: {
     width: 30,
     height: 30,
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   },
   icon: {
     width: 30,
-    height: 30
+    height: 30,
   },
   box: {
     backgroundColor: "white",
@@ -132,13 +140,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   },
   inbox: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
+  growth: {
+    color: "green",
+  },
+  decrease: {
+    color: "red",
+  },
+  stable: {
+    color: "grey",
+  },
 });
 
 export default CountryTile;
