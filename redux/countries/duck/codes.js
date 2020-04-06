@@ -472,7 +472,7 @@ export default {
     { symbol: require("../../../assets/images/flags/ro.png"), name: "Romania" },
     {
       symbol: require("../../../assets/images/flags/ru.png"),
-      name: "Russian Federation",
+      name: "Russia",
     },
     { symbol: require("../../../assets/images/flags/rw.png"), name: "Rwanda" },
     {

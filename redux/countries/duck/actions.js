@@ -9,12 +9,12 @@ const clear = () => ({
 })
 
 
-const received = () => ({
-    type: types.RECEIVED
+const searched = searched => ({
+    type: types.SEARCHED, searched
 })
 
 export default {
     add,
     clear,
-    received
+    searched
 }

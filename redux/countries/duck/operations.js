@@ -16,7 +16,9 @@ String.prototype.beginsWith = function (string) {
 
 export const searchCountry = (n) => async (dispatch) => {
   dispatch(actions.clear());
+  dispatch(actions.searched(false));
   const countries = await fetchCountries();
+  dispatch(actions.searched(true));
   const entries = Object.entries(countries);
   for (const [name, days] of entries) {
     if (name.toUpperCase().beginsWith(n.toUpperCase())) {
@@ -32,5 +34,4 @@ export const searchCountry = (n) => async (dispatch) => {
       }
     }
   }
-  //dispatch(actions.received());
 };

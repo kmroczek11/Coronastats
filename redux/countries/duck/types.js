@@ -1,9 +1,9 @@
 const ADD = 'ADD'
 const CLEAR = 'CLEAR'
-const RECEIVED = 'RECEIVED'
+const SEARCHED = 'SEARCHED'
 
 export default {
     ADD,
     CLEAR,
-    RECEIVED
+    SEARCHED
 }

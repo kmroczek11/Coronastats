@@ -115,23 +115,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#BDD4E7",
     padding: 5,
     borderRadius: 10,
-    borderBottomWidth: 5,
+    borderBottomWidth: 5
   },
   name: {
-    fontWeight: "bold",
+    fontSize:10,
+    fontWeight: "bold"
   },
   type: {
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   flag: {
     width: 30,
     height: 30,
     marginLeft: 5,
-    marginRight: 5,
+    marginRight: 5
   },
   icon: {
     width: 30,
-    height: 30,
+    height: 30
   },
   box: {
     backgroundColor: "white",
@@ -140,21 +141,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     marginLeft: 5,
-    marginRight: 5,
+    marginRight: 5
   },
   inbox: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   growth: {
-    color: "green",
+    color: "green"
   },
   decrease: {
-    color: "red",
+    color: "red"
   },
   stable: {
-    color: "grey",
+    color: "grey"
   },
 });
 

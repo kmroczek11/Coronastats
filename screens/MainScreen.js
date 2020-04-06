@@ -31,13 +31,13 @@ class MainScreen extends Component {
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.header}>Coronastats</Text>
         <SearchBox />
-        {/* {this.props.countriesReceived ? ( */}
-        <ScrollView>
-          <ListItems />
-        </ScrollView>
-        {/* ) : ( */}
-        {/* <ActivityIndicator size="large" color="#fff" /> */}
-        {/* )} */}
+        {this.props.countriesSearched ? (
+          <ScrollView>
+            <ListItems />
+          </ScrollView>
+        ) : (
+          <ActivityIndicator size="large" color="#fff" />
+        )}
       </KeyboardAvoidingView>
     ) : null;
   }
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { countries } = state;
-  return { countries };
+  const { countries, countriesSearched } = state;
+  return { countries, countriesSearched };
 };
 
 export default connect(mapStateToProps)(MainScreen);

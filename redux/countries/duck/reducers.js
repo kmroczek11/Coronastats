@@ -2,7 +2,7 @@ import types from "./types";
 
 const INITIAL_STATE = {
   countries: [],
-  countriesReceived: false,
+  countriesSearched: true,
 };
 
 const countriesReducer = (state = INITIAL_STATE, action) => {
@@ -17,10 +17,10 @@ const countriesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         countries: [],
       };
-    case types.RECEIVED:
+    case types.SEARCHED:
       return {
         ...state,
-        countriesReceived: true,
+        countriesSearched: action.searched,
       };
     default:
       return state;
