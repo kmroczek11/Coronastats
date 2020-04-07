@@ -11,7 +11,7 @@ import ListItems from "../components/ListItems";
 import * as Font from "expo-font";
 import SearchBox from "../components/SearchBox";
 
-class MainScreen extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,4 +63,4 @@ const mapStateToProps = (state) => {
   return { countries, countriesSearched };
 };
 
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps)(HomeScreen);

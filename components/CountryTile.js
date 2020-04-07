@@ -68,7 +68,7 @@ class CountryTile extends Component {
 
   difference = (d) => {
     if (d > 0) return <Text style={styles.growth}>+{d}</Text>;
-    else if (d < 0) return <Text style={styles.decrease}>-{d}</Text>;
+    else if (d < 0) return <Text style={styles.decrease}>{d}</Text>;
     else return <Text style={styles.stable}>{d}</Text>;
   };
 

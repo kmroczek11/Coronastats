@@ -1,12 +1,8 @@
 {
   "expo": {
-    "name": "coronavirus",
-    "slug": "coronavirus",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "name": "Coronastats",
+    "slug": "Coronastats",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,16 +10,20 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#618358"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kamilmroczek.coronastats",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.kamilmroczek.coronastats",
+      "versionCode": 1
     }
   }
 }
