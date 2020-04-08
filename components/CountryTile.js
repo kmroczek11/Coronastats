@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class CountryTile extends Component {
   constructor(props) {
@@ -11,6 +19,7 @@ class CountryTile extends Component {
       cDifference: this.props.confirmed - this.props.cYesterday,
       dDifference: this.props.deaths - this.props.dYesterday,
       rDifference: this.props.recovered - this.props.rYesterday,
+      selected: false,
     };
   }
 
@@ -72,6 +81,56 @@ class CountryTile extends Component {
     else return <Text style={styles.stable}>{d}</Text>;
   };
 
+  getAllData = async () => {
+    let keys = await AsyncStorage.getAllKeys();
+    console.log("Klucze ", keys);
+    let stores = await AsyncStorage.multiGet(keys);
+    // console.log("stores", stores);
+    let maps = stores.map((result, i, store) => {
+      let key = store[i][0];
+      let value = JSON.parse(store[i][1]);
+      console.log(key, value);
+    });
+  };
+
+  setData = async (key) => {
+    await AsyncStorage.setItem(key, JSON.stringify({}), (err) => {
+      if (err) {
+        console.log(`The error is: ${err}`);
+      }
+    }).catch((err) => console.log(`The error is: ${err}`));
+  };
+
+  removeData = async (key) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (err) {
+      console.log(`The error is: ${err}`);
+    }
+  };
+
+  removeAllData = async () => {
+    await AsyncStorage.getAllKeys()
+      .then((keys) => AsyncStorage.multiRemove(keys))
+      .then(() => console.log("usunięto"));
+  };
+
+  changeSelection = () => {
+    this.setState(
+      {
+        selected: !this.state.selected,
+      },
+      () => {
+        if (this.state.selected) {
+          this.setData(this.props.name);
+        } else {
+          this.removeData(this.props.name);
+        }
+        this.getAllData();
+      }
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -101,6 +160,13 @@ class CountryTile extends Component {
           </View>
           {this.difference(this.state.rDifference)}
         </View>
+        <TouchableOpacity onPress={this.changeSelection}>
+          {this.state.selected ? (
+            <Icon name="ios-eye" size={30} color="green" />
+          ) : (
+            <Icon name="ios-eye" size={30} color="red" />
+          )}
+        </TouchableOpacity>
       </View>
     );
   }
@@ -112,27 +178,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
-    backgroundColor: "#BDD4E7",
+    backgroundColor: "#686868",
     padding: 5,
     borderRadius: 10,
-    borderBottomWidth: 5
+    borderBottomWidth: 5,
   },
   name: {
-    fontSize:10,
-    fontWeight: "bold"
+    color: "white",
+    fontSize: 10,
+    fontWeight: "bold",
   },
   type: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   flag: {
     width: 30,
     height: 30,
-    marginLeft: 5,
-    marginRight: 5
+    marginLeft: 2,
+    marginRight: 2,
   },
   icon: {
     width: 30,
-    height: 30
+    height: 30,
   },
   box: {
     backgroundColor: "white",
@@ -140,22 +207,22 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 2,
     borderRadius: 5,
-    marginLeft: 5,
-    marginRight: 5
+    marginLeft: 2,
+    marginRight: 2,
   },
   inbox: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   growth: {
-    color: "green"
+    color: "green",
   },
   decrease: {
-    color: "red"
+    color: "red",
   },
   stable: {
-    color: "grey"
+    color: "grey",
   },
 });
 

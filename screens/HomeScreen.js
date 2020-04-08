@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import ListItems from "../components/ListItems";
 import * as Font from "expo-font";
 import SearchBox from "../components/SearchBox";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -27,19 +28,25 @@ class HomeScreen extends Component {
   };
 
   render() {
-    return this.state.fontloaded ? (
+    return (
       <KeyboardAvoidingView style={styles.container}>
-        <Text style={styles.header}>Coronastats</Text>
+        {this.state.fontloaded ? (
+          <Text style={styles.header}>Stats</Text>
+        ) : (
+          <Text>Font not loaded</Text>
+        )}
+
         <SearchBox />
+
         {this.props.countriesSearched ? (
           <ScrollView>
-            <ListItems />
+            <ListItems countries={this.props.all}/>
           </ScrollView>
         ) : (
           <ActivityIndicator size="large" color="#fff" />
         )}
       </KeyboardAvoidingView>
-    ) : null;
+    );
   }
 }
 
@@ -58,9 +65,15 @@ const styles = StyleSheet.create({
   },
 });
 
+HomeScreen.navigationOptions = {
+  tabBarIcon: ({ tintColor, focused }) => (
+    <Icon name={"ios-stats"} color={tintColor} size={25} />
+  ),
+};
+
 const mapStateToProps = (state) => {
-  const { countries, countriesSearched } = state;
-  return { countries, countriesSearched };
+  const { all, countriesSearched } = state.countries;
+  return { all, countriesSearched };
 };
 
 export default connect(mapStateToProps)(HomeScreen);

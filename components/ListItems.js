@@ -47,9 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  const { countries } = state;
-  return { countries };
-};
-
-export default connect(mapStateToProps)(ListItems);
+export default ListItems

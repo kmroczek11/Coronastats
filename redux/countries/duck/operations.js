@@ -1,5 +1,5 @@
 import actions from "./actions";
-import codes from "./codes";
+import codes from "../../libs/codes";
 
 const fetchCountries = async () => {
   const response = await fetch(
@@ -15,6 +15,7 @@ String.prototype.beginsWith = function (string) {
 };
 
 export const searchCountry = (n) => async (dispatch) => {
+  console.log("SearchCountry")
   dispatch(actions.clear());
   dispatch(actions.searched(false));
   const countries = await fetchCountries();

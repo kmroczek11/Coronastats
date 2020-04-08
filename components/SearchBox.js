@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/Ionicons";
 import { searchCountry } from "../redux/countries/duck/operations";
 
 class SearchBox extends Component {
@@ -17,7 +17,7 @@ class SearchBox extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Ionicons name="md-search" size={50} />
+        <Icon name="md-search" size={50} />
         <TextInput
           style={styles.input}
           placeholder="Search..."

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import HomeScreen from "./screens/HomeScreen.js";
-import FollowedScreen from "./screens/FollowedScreen.js";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createAppContainer } from "react-navigation";
+import Icon from "react-native-vector-icons/Ionicons";
 
-const Tabs = createMaterialTopTabNavigator();
+import AppNavigator from "./router";
+const AppIndex = createAppContainer(AppNavigator);
 
 class App extends Component {
   constructor(props) {
@@ -16,15 +16,29 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <NavigationContainer>
-          <Tabs.Navigator>
-            <Tabs.Screen name="Home" component={HomeScreen} />
-            <Tabs.Screen name="Followed" component={FollowedScreen} />
-          </Tabs.Navigator>
-        </NavigationContainer>
+        <View style={styles.container}>
+          <StatusBar backgroundColor="#B30000" barStyle="light-content" />
+          <View style={styles.header}>
+            <Icon name="ios-menu" size={28} color="white" />
+          </View>
+          <AppIndex />
+        </View>
       </Provider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent:"flex-end",
+    backgroundColor: "#B30000",
+    paddingHorizontal: 18,
+    paddingTop: 5,
+  },
+});
 
 export default App;
