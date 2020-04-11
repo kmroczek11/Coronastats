@@ -1,23 +1,23 @@
 import types from "./types";
 
 const INITIAL_STATE = {
-  all: [],
+  searchedCountries: [],
   countriesSearched: true,
 };
 
-const countriesReducer = (state = INITIAL_STATE, action) => {
+const searchedReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.ADD:
+    case types.ADD_SEARCHED:
       return {
         ...state,
-        all: [...state.all, action.country],
+        searchedCountries: [...state.searchedCountries, action.country],
       };
-    case types.CLEAR:
+    case types.CLEAR_SEARCHED_COUNTRIES:
       return {
         ...state,
-        all: [],
+        searchedCountries: [],
       };
-    case types.SEARCHED:
+    case types.COUNTRIES_SEARCHED:
       return {
         ...state,
         countriesSearched: action.searched,
@@ -27,4 +27,4 @@ const countriesReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default countriesReducer;
+export default searchedReducer;

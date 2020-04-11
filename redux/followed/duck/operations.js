@@ -1,30 +1,40 @@
 import actions from "./actions";
 import codes from "../../libs/codes";
+import { fetchCountries } from "../../libs/functions";
 
-const fetchCountries = async () => {
-  const response = await fetch(
-    "https://pomber.github.io/covid19/timeseries.json"
-  );
-  const json = await response.json();
-
-  return json;
+export const loadFollowed = (names) => async (dispatch) => {
+  names.forEach((followed) => {
+    dispatch(actions.addName(followed));
+  });
 };
 
-export const getCountries = (f) => async (dispatch) => {
-  console.log("GetCountries")
+export const addName = (followed) => async (dispatch) => {
+  console.log("Dodawanie: ", followed);
+  dispatch(actions.addName(followed));
+};
+
+export const removeName = (index) => async (dispatch) => {
+  console.log("Usuwanie indeksu: ", index);
+  dispatch(actions.removeName(index));
+};
+
+export const getFollowed = (f) => async (dispatch) => {
   dispatch(actions.clear());
+  dispatch(actions.searched(false));
   const countries = await fetchCountries();
   const entries = Object.entries(countries);
+  dispatch(actions.searched(true));
   f.forEach((followed) => {
     for (const [name, days] of entries) {
       if (name == followed) {
-        for (var symbol of codes.symbols) {
+        for (const symbol of codes.symbols) {
           if (symbol.name == name) {
             days.push({
               name: name,
               symbol: symbol.symbol,
+              selected: true,
             });
-            dispatch(actions.add(days));
+            dispatch(actions.addFollowed(days));
             break;
           }
         }

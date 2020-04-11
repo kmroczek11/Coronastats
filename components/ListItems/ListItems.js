@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import CountryTile from "./CountryTile";
+import CountryTile from "../CountryTile/CountryTile";
 import { connect } from "react-redux";
 
 class ListItems extends Component {
@@ -9,7 +9,7 @@ class ListItems extends Component {
   }
 
   render() {
-    const countries = this.props.countries;
+    const countries = this.props.data;
     const tiles = [];
     
     countries.map((country, i) => {
@@ -22,6 +22,7 @@ class ListItems extends Component {
           key={i}
           flag={additional.symbol}
           name={additional.name}
+          selected={additional.selected}
           confirmed={today.confirmed}
           deaths={today.deaths}
           recovered={today.recovered}

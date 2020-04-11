@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
   View,
   Text,
   Image,
   TouchableOpacity,
-  AsyncStorage,
+  ToastAndroid,
 } from "react-native";
+import { styles } from "./styles"
 import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
+import Storage from "../../libs/Storage";
+import {
+  addName,
+  removeName,
+  getFollowed,
+} from "../../redux/followed/duck/operations";
 
 class CountryTile extends Component {
   constructor(props) {
@@ -19,7 +26,7 @@ class CountryTile extends Component {
       cDifference: this.props.confirmed - this.props.cYesterday,
       dDifference: this.props.deaths - this.props.dYesterday,
       rDifference: this.props.recovered - this.props.rYesterday,
-      selected: false,
+      selected: this.props.selected,
     };
   }
 
@@ -53,21 +60,21 @@ class CountryTile extends Component {
         return (
           <Image
             style={styles.icon}
-            source={require("../assets/images/growth.png")}
+            source={require("../../assets/images/growth.png")}
           />
         );
       case "decrease":
         return (
           <Image
             style={styles.icon}
-            source={require("../assets/images/decrease.png")}
+            source={require("../../assets/images/decrease.png")}
           />
         );
       case "stable":
         return (
           <Image
             style={styles.icon}
-            source={require("../assets/images/stable.png")}
+            source={require("../../assets/images/stable.png")}
           />
         );
       default:
@@ -81,38 +88,27 @@ class CountryTile extends Component {
     else return <Text style={styles.stable}>{d}</Text>;
   };
 
-  getAllData = async () => {
-    let keys = await AsyncStorage.getAllKeys();
-    console.log("Klucze ", keys);
-    let stores = await AsyncStorage.multiGet(keys);
-    // console.log("stores", stores);
-    let maps = stores.map((result, i, store) => {
-      let key = store[i][0];
-      let value = JSON.parse(store[i][1]);
-      console.log(key, value);
-    });
+  setData = async (name) => {
+    await Storage.addItem(name);
+    this.props.addName(name);
+    this.props.getFollowed(this.props.followedNames);
+    ToastAndroid.showWithGravity(
+      "Observed " + name,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
   };
 
-  setData = async (key) => {
-    await AsyncStorage.setItem(key, JSON.stringify({}), (err) => {
-      if (err) {
-        console.log(`The error is: ${err}`);
-      }
-    }).catch((err) => console.log(`The error is: ${err}`));
-  };
-
-  removeData = async (key) => {
-    try {
-      await AsyncStorage.removeItem(key);
-    } catch (err) {
-      console.log(`The error is: ${err}`);
-    }
-  };
-
-  removeAllData = async () => {
-    await AsyncStorage.getAllKeys()
-      .then((keys) => AsyncStorage.multiRemove(keys))
-      .then(() => console.log("usunięto"));
+  removeData = async (name) => {
+    await Storage.removeItem(name);
+    const index = this.props.followedNames.indexOf(name);
+    this.props.removeName(index);
+    this.props.getFollowed(this.props.followedNames);
+    ToastAndroid.showWithGravity(
+      "Unobserved " + name,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
   };
 
   changeSelection = () => {
@@ -126,7 +122,6 @@ class CountryTile extends Component {
         } else {
           this.removeData(this.props.name);
         }
-        this.getAllData();
       }
     );
   };
@@ -162,9 +157,9 @@ class CountryTile extends Component {
         </View>
         <TouchableOpacity onPress={this.changeSelection}>
           {this.state.selected ? (
-            <Icon name="ios-eye" size={30} color="green" />
+            <Icon name="ios-eye" size={30} color="#32CD32" />
           ) : (
-            <Icon name="ios-eye" size={30} color="red" />
+            <Icon name="ios-eye" size={30} color="#FF1A1A" />
           )}
         </TouchableOpacity>
       </View>
@@ -172,58 +167,15 @@ class CountryTile extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
-    backgroundColor: "#686868",
-    padding: 5,
-    borderRadius: 10,
-    borderBottomWidth: 5,
-  },
-  name: {
-    color: "white",
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  type: {
-    fontWeight: "bold",
-  },
-  flag: {
-    width: 30,
-    height: 30,
-    marginLeft: 2,
-    marginRight: 2,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-  },
-  box: {
-    backgroundColor: "white",
-    alignItems: "center",
-    padding: 5,
-    borderWidth: 2,
-    borderRadius: 5,
-    marginLeft: 2,
-    marginRight: 2,
-  },
-  inbox: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  growth: {
-    color: "green",
-  },
-  decrease: {
-    color: "red",
-  },
-  stable: {
-    color: "grey",
-  },
+const matchDispatchToProps = (dispatch) => ({
+  addName: (followed) => dispatch(addName(followed)),
+  removeName: (followed) => dispatch(removeName(followed)),
+  getFollowed: (names) => dispatch(getFollowed(names)),
 });
 
-export default CountryTile;
+const mapStateToProps = (state) => {
+  const { followedNames } = state.followed;
+  return { followedNames };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(CountryTile);

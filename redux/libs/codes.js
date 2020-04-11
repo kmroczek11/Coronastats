@@ -118,7 +118,7 @@ export default {
     { symbol: require("../../assets/images/flags/cy.png"), name: "Cyprus" },
     {
       symbol: require("../../assets/images/flags/cz.png"),
-      name: "Czech Republic",
+      name: "Czechia",
     },
     { symbol: require("../../assets/images/flags/dk.png"), name: "Denmark" },
     { symbol: require("../../assets/images/flags/dj.png"), name: "Djibouti" },

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import Icon from "react-native-vector-icons/Ionicons";
-import { searchCountry } from "../redux/countries/duck/operations";
+import { searchCountry } from "../../redux/countries/duck/operations";
 
 class SearchBox extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class SearchBox extends Component {
   }
 
   onSearch = (t) => {
-    if (t != "") this.props.searchCountry(t);
+    if (t != "") this.props.searchCountry(t, this.props.followedNames);
   };
 
   render() {
@@ -44,11 +44,12 @@ const styles = StyleSheet.create({
 });
 
 const matchDispatchToProps = (dispatch) => ({
-  searchCountry: (t) => dispatch(searchCountry(t)),
+  searchCountry: (t, names) => dispatch(searchCountry(t, names)),
 });
 
 const mapStateToProps = (state) => {
-  return state;
+  const { followedNames } = state.followed;
+  return { followedNames };
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(SearchBox);

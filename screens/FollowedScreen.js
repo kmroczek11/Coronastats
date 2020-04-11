@@ -5,15 +5,14 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
-  View,
   AsyncStorage,
 } from "react-native";
 import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/Ionicons";
-import ListItems from "../components/ListItems";
-import { getCountries } from "../redux/followed/duck/operations";
+import ListItems from "../components/ListItems/ListItems";
+import { loadFollowed, getFollowed } from "../redux/followed/duck/operations";
 
 class FollowedScreen extends Component {
   constructor(props) {
@@ -28,13 +27,9 @@ class FollowedScreen extends Component {
       coronaFont: require("../assets/fonts/bloody.otf"),
     });
     this.setState({ fontloaded: true });
-    this.loadFollowed();
-  };
-
-  loadFollowed = async () => {
-    let keys = await AsyncStorage.getAllKeys();
-    console.log("Klucze ", keys);
-    this.props.getCountries(keys);
+    var followed = await AsyncStorage.getAllKeys();
+    this.props.loadFollowed(followed);
+    this.props.getFollowed(followed);
   };
 
   render() {
@@ -45,9 +40,14 @@ class FollowedScreen extends Component {
         ) : (
           <Text>Font not loaded</Text>
         )}
-        <ScrollView>
-          <ListItems countries={this.props.all} />
-        </ScrollView>
+
+        {this.props.followedSearched ? (
+          <ScrollView>
+            <ListItems data={this.props.followedCountries} />
+          </ScrollView>
+        ) : (
+          <ActivityIndicator size="large" color="#fff" />
+        )}
       </KeyboardAvoidingView>
     );
   }
@@ -75,12 +75,13 @@ FollowedScreen.navigationOptions = {
 };
 
 const matchDispatchToProps = (dispatch) => ({
-  getCountries: (f) => dispatch(getCountries(f)),
+  loadFollowed: (names) => dispatch(loadFollowed(names)),
+  getFollowed: (names) => dispatch(getFollowed(names)),
 });
 
 const mapStateToProps = (state) => {
-  const { all } = state.followed;
-  return { all };
+  const { followedCountries, followedSearched } = state.followed;
+  return { followedCountries, followedSearched };
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(FollowedScreen);

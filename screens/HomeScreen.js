@@ -7,9 +7,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { connect } from "react-redux";
-import ListItems from "../components/ListItems";
+import ListItems from "../components/ListItems/ListItems";
 import * as Font from "expo-font";
-import SearchBox from "../components/SearchBox";
+import SearchBox from "../components/SearchBox/SearchBox";
 import Icon from "react-native-vector-icons/Ionicons";
 
 class HomeScreen extends Component {
@@ -40,7 +40,7 @@ class HomeScreen extends Component {
 
         {this.props.countriesSearched ? (
           <ScrollView>
-            <ListItems countries={this.props.all}/>
+            <ListItems data={this.props.searchedCountries}/>
           </ScrollView>
         ) : (
           <ActivityIndicator size="large" color="#fff" />
@@ -72,8 +72,8 @@ HomeScreen.navigationOptions = {
 };
 
 const mapStateToProps = (state) => {
-  const { all, countriesSearched } = state.countries;
-  return { all, countriesSearched };
+  const { searchedCountries, countriesSearched } = state.searched;
+  return { searchedCountries, countriesSearched };
 };
 
 export default connect(mapStateToProps)(HomeScreen);

@@ -1,5 +1,5 @@
-import countriesReducer from "./reducers";
-export { default as countriesTypes } from "./types";
-export { default as countriesActions } from "./actions";
+import searchedReducer from "./reducers";
+export { default as searchedTypes } from "./types";
+export { default as searchedActions } from "./actions";
 
-export default countriesReducer;
+export default searchedReducer;

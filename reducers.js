@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import countriesReducer from './redux/countries/duck'
+import searchedReducer from './redux/countries/duck'
 import followedReducer from "./redux/followed/duck"
 
 const rootReducer = combineReducers({
-    countries: countriesReducer,
+    searched: searchedReducer,
     followed: followedReducer
 })
 
