@@ -8,10 +8,10 @@ class ListItems extends Component {
     super(props);
   }
 
-  render() {
+  createListItems = () => {
     const countries = this.props.data;
     const tiles = [];
-    
+
     countries.map((country, i) => {
       const today = country[country.length - 2];
       const additional = country[country.length - 1];
@@ -33,7 +33,11 @@ class ListItems extends Component {
       );
     });
 
-    return <View style={styles.container}>{tiles}</View>;
+    return tiles;
+  };
+
+  render() {
+    return this.createListItems();
   }
 }
 
@@ -48,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListItems
+export default ListItems;

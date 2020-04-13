@@ -1,44 +1,32 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import * as Font from "expo-font";
+import { StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
-import { createAppContainer } from "react-navigation";
-import Icon from "react-native-vector-icons/Ionicons";
-
-import AppNavigator from "./router";
-const AppIndex = createAppContainer(AppNavigator);
+import DrawerNavigator from "./navigation/DrawerNavigator/DrawerNavigator";
+import { NavigationContainer } from "@react-navigation/native";
 
 class App extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount = async () => {
+    await Font.loadAsync({
+      voga: require("./assets/fonts/Voga.otf"),
+    });
+  };
+
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <StatusBar backgroundColor="#B30000" barStyle="light-content" />
-          <View style={styles.header}>
-            <Icon name="ios-menu" size={28} color="white" />
-          </View>
-          <AppIndex />
-        </View>
+        <NavigationContainer>
+          <StatusBar backgroundColor="#000" barStyle="light-content" />
+          <DrawerNavigator />
+        </NavigationContainer>
       </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container:{
-    flex:1
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent:"flex-end",
-    backgroundColor: "#B30000",
-    paddingHorizontal: 18,
-    paddingTop: 5,
-  },
-});
 
 export default App;

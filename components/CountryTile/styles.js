@@ -6,18 +6,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
-    backgroundColor: "#686868",
+    backgroundColor: "#191919",
     padding: 5,
-    borderRadius: 10,
-    borderBottomWidth: 5,
-  },
-  name: {
-    color: "white",
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  type: {
-    fontWeight: "bold",
+    marginBottom: 6,
   },
   flag: {
     width: 30,
@@ -29,12 +20,23 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+  name: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "bold",
+  },
+  type: {
+    color: "#666666",
+    fontWeight: "bold",
+  },
+  amount: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+
   box: {
-    backgroundColor: "white",
     alignItems: "center",
     padding: 5,
-    borderWidth: 2,
-    borderRadius: 5,
     marginLeft: 2,
     marginRight: 2,
   },

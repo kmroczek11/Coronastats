@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import Icon from "react-native-vector-icons/Ionicons";
-import { searchCountry } from "../../redux/countries/duck/operations";
+import { searchCountry } from "../../redux/searched/duck/operations";
 
 class SearchBox extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class SearchBox extends Component {
         <Icon name="md-search" size={50} />
         <TextInput
           style={styles.input}
-          placeholder="Search..."
+          placeholder="Search for a country..."
           onChangeText={(text) => this.onSearch(text)}
         />
       </View>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 250,
-    fontSize: 25,
+    fontSize: 20,
     padding: 10,
   },
 });

@@ -21,7 +21,7 @@ export const removeName = (index) => async (dispatch) => {
 export const getFollowed = (f) => async (dispatch) => {
   dispatch(actions.clear());
   dispatch(actions.searched(false));
-  const countries = await fetchCountries();
+  const countries = await fetchCountries()
   const entries = Object.entries(countries);
   dispatch(actions.searched(true));
   f.forEach((followed) => {

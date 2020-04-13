@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
 } from "react-native";
-import { styles } from "./styles"
+import { styles } from "./styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import Storage from "../../libs/Storage";
@@ -134,7 +134,7 @@ class CountryTile extends Component {
         <View style={styles.box}>
           <Text style={styles.type}>Confirmed</Text>
           <View style={styles.inbox}>
-            <Text>{this.props.confirmed}</Text>
+            <Text style={styles.amount}>{this.props.confirmed}</Text>
             {this.progress(this.state.cProgress)}
           </View>
           {this.difference(this.state.cDifference)}
@@ -142,7 +142,7 @@ class CountryTile extends Component {
         <View style={styles.box}>
           <Text style={styles.type}>Deaths</Text>
           <View style={styles.inbox}>
-            <Text>{this.props.deaths}</Text>
+            <Text style={styles.amount}>{this.props.deaths}</Text>
             {this.progress(this.state.dProgress)}
           </View>
           {this.difference(this.state.dDifference)}
@@ -150,7 +150,7 @@ class CountryTile extends Component {
         <View style={styles.box}>
           <Text style={styles.type}>Recovered</Text>
           <View style={styles.inbox}>
-            <Text>{this.props.recovered}</Text>
+            <Text style={styles.amount}>{this.props.recovered}</Text>
             {this.progress(this.state.rProgress)}
           </View>
           {this.difference(this.state.rDifference)}
