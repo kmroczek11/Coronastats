@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TabNavigator from "../TabNavigator/TabNavigator";
 import Icon from "react-native-vector-icons/Ionicons";
+import ChartScreen from "../../screens/ChartScreen";
 
 class StackNavigator extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class StackNavigator extends Component {
             ),
           }}
         />
+        <Stack.Screen name="ChartScreen" component={ChartScreen} />
       </Stack.Navigator>
     );
   }

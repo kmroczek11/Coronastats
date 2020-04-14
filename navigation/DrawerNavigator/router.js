@@ -25,6 +25,8 @@ export default config = createDrawerNavigator(
         by checking green the eye
         icon alongside a 
         specific country.
+        Long press a country
+        to show a graph.
         `}</Text>
       </View>
     ),
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft:-50
+    marginLeft: -40,
   },
   text: {
     fontFamily: "voga",

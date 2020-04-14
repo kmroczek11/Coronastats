@@ -29,7 +29,10 @@ class FollowedScreen extends Component {
 
         {this.props.followedSearched ? (
           <ScrollView>
-            <ListItems data={this.props.followedCountries} />
+            <ListItems
+              data={this.props.followedCountries}
+              navigation={this.props.navigation}
+            />
           </ScrollView>
         ) : (
           <ActivityIndicator size="large" color="#fff" />

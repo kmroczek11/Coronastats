@@ -20,10 +20,13 @@ class HomeScreen extends Component {
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.header}>Stats</Text>
         <SearchBox />
-        
+
         {this.props.countriesSearched ? (
           <ScrollView>
-            <ListItems data={this.props.searchedCountries} />
+            <ListItems
+              data={this.props.searchedCountries}
+              navigation={this.props.navigation}
+            />
           </ScrollView>
         ) : (
           <ActivityIndicator size="large" color="#fff" />

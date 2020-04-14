@@ -19,7 +19,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kamilmroczek.coronastats",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "requireFullScreen": true
     },
     "android": {
       "package": "com.kamilmroczek.coronastats",

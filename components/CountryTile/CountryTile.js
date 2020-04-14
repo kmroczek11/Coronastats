@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ToastAndroid,
 } from "react-native";
 import { styles } from "./styles";
@@ -20,18 +21,46 @@ class CountryTile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
+      flag: null,
+      selected: null,
+      confirmed: null,
+      deaths: null,
+      recovered: null,
+      cDifference: null,
+      dDifference: null,
+      rDifference: null,
       cProgress: "",
       dProgress: "",
       rProgress: "",
-      cDifference: this.props.confirmed - this.props.cYesterday,
-      dDifference: this.props.deaths - this.props.dYesterday,
-      rDifference: this.props.recovered - this.props.rYesterday,
-      selected: this.props.selected,
     };
   }
 
+  setStats = () => {
+    const today = this.props.data[this.props.data.length - 2];
+    const additional = this.props.data[this.props.data.length - 1];
+    const yesterday = this.props.data[this.props.data.length - 3];
+
+    this.setState(
+      {
+        name: additional.name,
+        flag: additional.symbol,
+        selected: additional.selected,
+        confirmed: today.confirmed,
+        deaths: today.deaths,
+        recovered: today.recovered,
+        cDifference: today.confirmed - yesterday.confirmed,
+        dDifference: today.deaths - yesterday.deaths,
+        rDifference: today.recovered - yesterday.recovered,
+      },
+      () => {
+        this.checkProgresses();
+      }
+    );
+  };
+
   componentDidMount = () => {
-    this.checkProgresses();
+    this.setStats();
   };
 
   checkProgresses = () => {
@@ -45,6 +74,7 @@ class CountryTile extends Component {
     else dProgress = "stable";
 
     if (this.state.rDifference > 0) rProgress = "growth";
+    else if (this.state.rDifference < 0) rProgress = "decrease";
     else rProgress = "stable";
 
     this.setState({
@@ -118,51 +148,60 @@ class CountryTile extends Component {
       },
       () => {
         if (this.state.selected) {
-          this.setData(this.props.name);
+          this.setData(this.state.name);
         } else {
-          this.removeData(this.props.name);
+          this.removeData(this.state.name);
         }
       }
     );
   };
 
+  navigateToChart = () => {
+    this.props.navigation.navigate("ChartScreen", {
+      name: this.state.name,
+      data: this.props.data,
+    });
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.name}>{this.props.name}</Text>
-        <Image style={styles.flag} source={this.props.flag} />
-        <View style={styles.box}>
-          <Text style={styles.type}>Confirmed</Text>
-          <View style={styles.inbox}>
-            <Text style={styles.amount}>{this.props.confirmed}</Text>
-            {this.progress(this.state.cProgress)}
+      <TouchableWithoutFeedback onLongPress={() => this.navigateToChart()}>
+        <View style={styles.container}>
+          <Text style={styles.name}>{this.state.name}</Text>
+          <Image style={styles.flag} source={this.state.flag} />
+          <View style={styles.box}>
+            <Text style={styles.type}>Confirmed</Text>
+            <View style={styles.inbox}>
+              <Text style={styles.amount}>{this.state.confirmed}</Text>
+              {this.progress(this.state.cProgress)}
+            </View>
+            {this.difference(this.state.cDifference)}
           </View>
-          {this.difference(this.state.cDifference)}
-        </View>
-        <View style={styles.box}>
-          <Text style={styles.type}>Deaths</Text>
-          <View style={styles.inbox}>
-            <Text style={styles.amount}>{this.props.deaths}</Text>
-            {this.progress(this.state.dProgress)}
+          <View style={styles.box}>
+            <Text style={styles.type}>Deaths</Text>
+            <View style={styles.inbox}>
+              <Text style={styles.amount}>{this.state.deaths}</Text>
+              {this.progress(this.state.dProgress)}
+            </View>
+            {this.difference(this.state.dDifference)}
           </View>
-          {this.difference(this.state.dDifference)}
-        </View>
-        <View style={styles.box}>
-          <Text style={styles.type}>Recovered</Text>
-          <View style={styles.inbox}>
-            <Text style={styles.amount}>{this.props.recovered}</Text>
-            {this.progress(this.state.rProgress)}
+          <View style={styles.box}>
+            <Text style={styles.type}>Recovered</Text>
+            <View style={styles.inbox}>
+              <Text style={styles.amount}>{this.state.recovered}</Text>
+              {this.progress(this.state.rProgress)}
+            </View>
+            {this.difference(this.state.rDifference)}
           </View>
-          {this.difference(this.state.rDifference)}
+          <TouchableOpacity onPress={this.changeSelection}>
+            {this.state.selected ? (
+              <Icon name="ios-eye" size={30} color="#32CD32" />
+            ) : (
+              <Icon name="ios-eye" size={30} color="#FF1A1A" />
+            )}
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={this.changeSelection}>
-          {this.state.selected ? (
-            <Icon name="ios-eye" size={30} color="#32CD32" />
-          ) : (
-            <Icon name="ios-eye" size={30} color="#FF1A1A" />
-          )}
-        </TouchableOpacity>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
