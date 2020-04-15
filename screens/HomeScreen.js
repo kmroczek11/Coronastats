@@ -29,7 +29,7 @@ class HomeScreen extends Component {
             />
           </ScrollView>
         ) : (
-          <ActivityIndicator size="large" color="#fff" />
+          <ActivityIndicator size="large" color="#000" />
         )}
       </KeyboardAvoidingView>
     );

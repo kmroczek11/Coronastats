@@ -5,6 +5,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import TabNavigator from "../TabNavigator/TabNavigator";
 import Icon from "react-native-vector-icons/Ionicons";
 import ChartScreen from "../../screens/ChartScreen";
+import Header from "../HeaderComponents/Header/Header";
+import BackButton from "../HeaderComponents/BackButton/BackButton";
 
 class StackNavigator extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class StackNavigator extends Component {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
+            height: 70,
             backgroundColor: "#000",
           },
           headerTitleStyle: {
@@ -40,7 +43,29 @@ class StackNavigator extends Component {
             ),
           }}
         />
-        <Stack.Screen name="ChartScreen" component={ChartScreen} />
+        <Stack.Screen
+          name="ChartScreen"
+          component={ChartScreen}
+          options={{
+            header: ({ scene, previous, navigation }) => {
+              const { options } = scene.descriptor;
+              const flag = scene.route.params.flag;
+              const title = scene.route.params.name;
+              
+              return (
+                <Header
+                  flag={flag}
+                  title={title}
+                  leftButton={
+                    previous ? (
+                      <BackButton onPress={navigation.goBack} />
+                    ) : undefined
+                  }
+                />
+              );
+            },
+          }}
+        />
       </Stack.Navigator>
     );
   }

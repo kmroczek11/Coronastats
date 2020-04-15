@@ -123,7 +123,7 @@ class CountryTile extends Component {
     this.props.addName(name);
     this.props.getFollowed(this.props.followedNames);
     ToastAndroid.showWithGravity(
-      "Observed " + name,
+      "Followed " + name,
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
@@ -135,7 +135,7 @@ class CountryTile extends Component {
     this.props.removeName(index);
     this.props.getFollowed(this.props.followedNames);
     ToastAndroid.showWithGravity(
-      "Unobserved " + name,
+      "Unfollowed " + name,
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
@@ -158,11 +158,12 @@ class CountryTile extends Component {
 
   navigateToChart = () => {
     this.props.navigation.navigate("ChartScreen", {
+      flag: this.state.flag,
       name: this.state.name,
       data: this.props.data,
     });
   };
-
+  
   render() {
     return (
       <TouchableWithoutFeedback onLongPress={() => this.navigateToChart()}>
