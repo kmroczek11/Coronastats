@@ -4,15 +4,20 @@ import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import Icon from "react-native-vector-icons/Ionicons";
 import { searchCountry } from "../../redux/searched/duck/operations";
+import { debounce } from "lodash"
 
 class SearchBox extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   onSearch = (t) => {
-    if (t != "") this.props.searchCountry(t, this.props.followedNames);
+    if (t != "") this.debouncedSearch(t);
   };
+
+  debouncedSearch = debounce((t) => {
+    this.props.searchCountry(t, this.props.followedNames);
+  }, 500);
 
   render() {
     return (
