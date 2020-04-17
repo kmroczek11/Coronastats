@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontFamily: "voga",
     fontSize: 20,
-    margin: 5,
+    marginTop: 5,
   },
 });
 

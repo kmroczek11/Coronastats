@@ -22,14 +22,14 @@ class HomeScreen extends Component {
         <SearchBox />
 
         {this.props.countriesSearched ? (
-          <ScrollView>
+          <ScrollView style={styles.list}>
             <ListItems
               data={this.props.searchedCountries}
               navigation={this.props.navigation}
             />
           </ScrollView>
         ) : (
-          <ActivityIndicator size="large" color="#000" />
+          <ActivityIndicator size="large" color="#000" style={{ margin: 5 }} />
         )}
       </KeyboardAvoidingView>
     );
@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
     fontSize: 80,
     color: "#000",
     margin: 20,
+  },
+  list: {
+    marginTop: 5,
   },
 });
 
