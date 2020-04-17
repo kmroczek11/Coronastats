@@ -4,30 +4,50 @@ import { connect } from "react-redux";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import Icon from "react-native-vector-icons/Ionicons";
 import { searchCountry } from "../../redux/searched/duck/operations";
-import { debounce } from "lodash"
+import { debounce } from "lodash";
 
 class SearchBox extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      phrase: "",
+      searching: false,
+    };
   }
-  
+
   onSearch = (t) => {
-    if (t != "") this.debouncedSearch(t);
+    if (t != "") {
+      this.setState({
+        phrase: t,
+        searching: true,
+      });
+      this.debouncedSearch(t);
+    }
   };
 
   debouncedSearch = debounce((t) => {
     this.props.searchCountry(t, this.props.followedNames);
+    this.setState({
+      searching: false,
+    });
   }, 500);
 
   render() {
     return (
       <View style={styles.container}>
-        <Icon name="md-search" size={50} />
-        <TextInput
-          style={styles.input}
-          placeholder="Search for a country..."
-          onChangeText={(text) => this.onSearch(text)}
-        />
+        <View style={styles.content}>
+          <Icon name="md-search" size={50} />
+          <TextInput
+            style={styles.input}
+            placeholder="Search for a country..."
+            onChangeText={(text) => this.onSearch(text)}
+          />
+        </View>
+        {this.state.searching ? (
+          <Text style={styles.searching}>
+            Searching for {this.state.phrase}...
+          </Text>
+        ) : null}
       </View>
     );
   }
@@ -35,7 +55,9 @@ class SearchBox extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 8,
+    alignItems: "center",
+  },
+  content: {
     backgroundColor: "#fff",
     flexDirection: "row",
     padding: 10,
@@ -45,6 +67,12 @@ const styles = StyleSheet.create({
     width: 250,
     fontSize: 20,
     padding: 10,
+  },
+  searching: {
+    color: "#000",
+    fontFamily: "voga",
+    fontSize: 20,
+    margin: 5,
   },
 });
 

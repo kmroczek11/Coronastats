@@ -37,7 +37,6 @@
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
-    "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.14.0",
     "react-native-web": "^0.12.2",
     "react-navigation": "^4.3.7",
@@ -47,7 +46,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "react-native-svg": "11.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
