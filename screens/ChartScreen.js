@@ -66,7 +66,7 @@ class ChartScreen extends Component {
     };
 
     var days = this.props.route.params.data;
-    days.pop();
+    days = days.slice(0, days.length - 1);
     days = days.slice(Math.max(days.length - 30, 0));
     var labels = [];
     var confirmed = [];
